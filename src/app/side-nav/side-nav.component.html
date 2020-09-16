@@ -1,0 +1,32 @@
+<mat-drawer-container>
+  <mat-drawer mode="side" opened>
+    <mat-accordion displayMode="flat" [multi]="false" cdkDropListGroup>
+      <mat-expansion-panel *ngFor="let control of controls" #chapterExpansionPanel
+        (mouseenter)="mouseEnterHandler($event, chapterExpansionPanel)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ control.name }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-list cdkDropList #todoList="cdkDropList" [cdkDropListData]="control.items"
+          [cdkDropListConnectedTo]="[doneList]" class="example-list">
+          <mat-list-item class="example-box" cdkDrag *ngFor="let item of control.items" [cdkDragData]="item">
+            {{ item.name }}
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-tab-group disableRipple="true" (click)="clearAll()">
+      <mat-tab label="Flow 1">
+        <div cdkDropList #doneList="cdkDropList" [cdkDropListConnectedTo]="[todoList]" class="example-boundary"
+          (cdkDropListDropped)="itemDropped($event)">
+          <div class="content-box" *ngFor="let field of fields" cdkDragBoundary=".example-boundary" cdkDrag>{{field}}
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-drawer-content>
+</mat-drawer-container>
