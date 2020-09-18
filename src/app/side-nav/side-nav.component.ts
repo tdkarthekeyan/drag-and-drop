@@ -57,7 +57,9 @@ export class SideNavComponent implements OnInit {
   panelOpenState = false;
   fields: string[] = [];
   key = 'fields';
-
+  showFiller = false;
+  value = 'Clear me';
+  index: number;
   ngOnInit() {
     this.getStorageData();
   }
@@ -67,7 +69,6 @@ export class SideNavComponent implements OnInit {
   }
 
   addField(fieldType: any, index: number) {
-    console.log(fieldType);
     this.fields.splice(index, 0, fieldType.name);
     localStorage.setItem(this.key, JSON.stringify(this.fields));
   }
@@ -78,9 +79,13 @@ export class SideNavComponent implements OnInit {
     }
   }
 
-  clearAll(): void {
-    localStorage.setItem(this.key, JSON.stringify([]));
-    this.getStorageData();
+  getUpdateValue(value): void {
+    this.index = this.fields.indexOf(value);
+    this.value = value;
+  }
+
+  updateValue(): void {
+    this.fields[this.index] = this.value;
   }
 
   getStorageData(): void {

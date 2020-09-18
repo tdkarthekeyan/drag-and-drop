@@ -19,14 +19,29 @@
     </mat-accordion>
   </mat-drawer>
   <mat-drawer-content>
-    <mat-tab-group disableRipple="true" (click)="clearAll()">
+    <mat-tab-group disableRipple="true">
       <mat-tab label="Flow 1">
         <div cdkDropList #doneList="cdkDropList" [cdkDropListConnectedTo]="[todoList]" class="example-boundary"
           (cdkDropListDropped)="itemDropped($event)">
-          <div class="content-box" *ngFor="let field of fields" cdkDragBoundary=".example-boundary" cdkDrag>{{field}}
+          <div class="content-box" *ngFor="let field of fields" cdkDragBoundary=".example-boundary" cdkDrag>
+            <button type="button" mat-button (click)="drawer.toggle();getUpdateValue(field)">
+              {{field}}
+            </button>
+
+            <!-- {{field}} -->
           </div>
         </div>
       </mat-tab>
     </mat-tab-group>
   </mat-drawer-content>
+
+</mat-drawer-container>
+<mat-drawer-container>
+  <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
+    <p>Edit Title</p>
+    <input matInput #message maxlength="256" placeholder={{value}} [(ngModel)]="value">
+    <button type="button" mat-button (click)="drawer.toggle();updateValue()">
+      Save
+    </button>
+  </mat-drawer>
 </mat-drawer-container>
